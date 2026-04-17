@@ -276,6 +276,7 @@ export interface ExecutiveSummary {
   at_risk_percentage: number;
   off_track_percentage: number;
   total_benefits: string;
+  total_investment: string;
   currency_symbol: string;
   initiatives_by_state: {
     group: number;
@@ -293,8 +294,174 @@ export interface ExecutiveSummary {
     expenses: string[];
     net_flow: string[];
   };
+  cumulative_cash_flow: {
+    month: string;
+    cumulative_income: string;
+    cumulative_expenses: string;
+  }[];
   annualized_benefits: {
     label: string;
     value: string;
+  }[];
+  portfolio_health_score: number;
+  health_components: {
+    milestone_health: number;
+    financial_performance: number;
+    strategic_alignment: number;
+  };
+  dependency_counts: {
+    it: number;
+    hr: number;
+    procurement: number;
+  };
+}
+
+export interface StrategicAlignmentData {
+  objectives: {
+    id: number;
+    name: string;
+    order: number;
+    total_benefit: string;
+    initiative_count: number;
+    initiatives: {
+      id: number;
+      name: string;
+      benefit: string;
+      state: InitiativeState;
+      tshirt_size: string;
+      workstream: string;
+    }[];
+  }[];
+  unaligned_count: number;
+  unaligned_benefit: string;
+}
+
+export interface VelocityData {
+  stages: {
+    stage: string;
+    key: string;
+    count: number;
+    median_days_in_stage: number;
+    conversion_rate: number;
+  }[];
+  avg_time_to_execution_days: number;
+}
+
+export interface ParetoData {
+  initiatives: {
+    id: number;
+    name: string;
+    workstream: string;
+    state: InitiativeState;
+    benefit: string;
+    cumulative_pct: number;
+  }[];
+  total_benefit: string;
+  count: number;
+}
+
+export interface LeadCapacityData {
+  leads: {
+    id: number;
+    name: string;
+    initiative_count: number;
+    total_fte: string;
+    initiatives: {
+      id: number;
+      name: string;
+      state: InitiativeState;
+      fte: string;
+    }[];
+  }[];
+}
+
+export interface ResourceDemandData {
+  quarters: string[];
+  workstreams: Record<string, string>[];
+}
+
+export interface BenefitRealizationData {
+  initiatives: {
+    id: number;
+    name: string;
+    workstream: string;
+    state: InitiativeState;
+    estimate: { total_benefit: string; implementation_cost: string; roi: string };
+    projected: { total_benefit: string; implementation_cost: string; roi: string };
+    real: { total_benefit: string; implementation_cost: string; roi: string };
+    final: { total_benefit: string; implementation_cost: string; roi: string };
+  }[];
+  totals: {
+    estimate_benefit: string;
+    projected_benefit: string;
+    real_benefit: string;
+    final_benefit: string;
+    variance_estimate_to_real_pct: number;
+  };
+}
+
+export interface ROIDistributionData {
+  buckets: { label: string; count: number }[];
+  avg_roi: number;
+  median_roi: number;
+  total_initiatives: number;
+}
+
+export interface InvestmentByWorkstreamData {
+  workstreams: Record<string, string>[];
+  state_groups: string[];
+}
+
+export interface MilestoneSlipData {
+  buckets: { label: string; count: number }[];
+  total_milestones: number;
+  avg_slip_days: number;
+  median_slip_days: number;
+  on_time_percentage: number;
+  by_type: Record<string, { count: number; avg_slip: number }>;
+}
+
+export interface SizeDistributionData {
+  cells: {
+    tshirt_size: string;
+    duration: string;
+    count: number;
+    total_benefit: string;
+  }[];
+}
+
+export interface OrgImpactData {
+  units: Record<string, string | number>[];
+  state_groups: string[];
+}
+
+export interface TimeToValueData {
+  initiatives: {
+    id: number;
+    name: string;
+    state: InitiativeState;
+    age_days: number;
+    benefit: string;
+    time_to_impact_days: number | null;
+    workstream: string;
+  }[];
+}
+
+export interface RiskExposureData {
+  total_initiatives: number;
+  implementation_risk_coverage: number;
+  business_risk_coverage: number;
+  overall_risk_coverage: number;
+  top_risk_initiatives: {
+    id: number;
+    name: string;
+    workstream: string;
+    state: InitiativeState;
+    implementation_risks: string;
+    business_risks: string;
+    risk_score: number;
+    requires_it: boolean;
+    requires_hr: boolean;
+    requires_procurement: boolean;
   }[];
 }
